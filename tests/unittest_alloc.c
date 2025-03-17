@@ -27,7 +27,7 @@ void* ini_realloc(void* ptr, size_t size) {
 char Prev_section[50];
 
 int dumper(void* user, const char* section, const char* name,
-           const char* value)
+           INI_HANDLER_VALUE_T value)
 {
     if (strcmp(section, Prev_section)) {
         printf("... [%s]\n", section);

@@ -24,10 +24,10 @@ char Prev_section[50];
 
 #if INI_HANDLER_LINENO
 int dumper(void* user, const char* section, const char* name,
-           const char* value, int lineno)
+           INI_HANDLER_VALUE_T value, int lineno)
 #else
 int dumper(void* user, const char* section, const char* name,
-           const char* value)
+           INI_HANDLER_VALUE_T value)
 #endif
 {
     User = *((int*)user);
