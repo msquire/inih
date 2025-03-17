@@ -61,3 +61,7 @@ rm -f unittest_allow_no_value
 $CC -DINI_CUSTOM_ALLOCATOR=1 -DINI_USE_STACK=0 -DINI_ALLOW_REALLOC=1 -DINI_INITIAL_ALLOC=12 ../ini.c unittest_alloc.c -o unittest_alloc
 ./unittest_alloc > baseline_alloc.txt
 rm -f unittest_alloc
+
+$CC ../ini.c -DINI_HANDLER_MUTABLE_VALUE=1 unittest.c -o unittest_mutable_value
+./unittest_mutable_value > baseline_mutable_value.txt
+rm -f unittest_mutable_value
