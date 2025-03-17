@@ -13,7 +13,7 @@ int User;
 char Prev_section[50];
 
 int dumper(void* user, const char* section, const char* name,
-           INI_HANDLER_VALUE_T value)
+           const char* value)
 {
     User = *((int*)user);
     if (strcmp(section, Prev_section)) {

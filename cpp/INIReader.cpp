@@ -158,7 +158,7 @@ string INIReader::MakeKey(const string& section, const string& name)
 }
 
 int INIReader::ValueHandler(void* user, const char* section, const char* name,
-                            const char* value)
+                            INI_HANDLER_VALUE_T value)
 {
     if (!name)  // Happens when INI_CALL_HANDLER_ON_NEW_SECTION enabled
         return 1;
