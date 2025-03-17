@@ -26,6 +26,15 @@ extern "C" {
 #define INI_HANDLER_LINENO 0
 #endif
 
+/* By default, the value parameter of ini_handler is "const char *" (this is
+   required for backwards compatibility). Setting this to non-zero will make
+   it "char *" and allow client code to mutate value without an explicit cast
+   (within its bounds of course).
+*/
+#ifndef INI_HANDLER_MUTABLE_VALUE
+#define INI_HANDLER_MUTABLE_VALUE 0
+#endif
+
 /* Visibility symbols, required for Windows DLLs */
 #ifndef INI_API
 #if defined _WIN32 || defined __CYGWIN__
@@ -47,20 +56,20 @@ extern "C" {
 #endif
 #endif
 
-/* Typedef for prototype of handler function.
+#if INI_HANDLER_MUTABLE_VALUE
+#   define INI_HANDLER_VALUE_T  char*
+#else
+#   define INI_HANDLER_VALUE_T  const char*
+#endif
 
-   Note that even though the value parameter has type "const char*", the user
-   may cast to "char*" and modify its content, as the value is not used again
-   after the call to ini_handler. This is not true of section and name --
-   those must not be modified.
-*/
+/* Typedef for prototype of handler function. */
 #if INI_HANDLER_LINENO
 typedef int (*ini_handler)(void* user, const char* section,
-                           const char* name, const char* value,
+                           const char* name, INI_HANDLER_VALUE_T value,
                            int lineno);
 #else
 typedef int (*ini_handler)(void* user, const char* section,
-                           const char* name, const char* value);
+                           const char* name, INI_HANDLER_VALUE_T value);
 #endif
 
 /* Typedef for prototype of fgets-style reader function. */
