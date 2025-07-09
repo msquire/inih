@@ -35,6 +35,14 @@ void* ini_realloc(void* ptr, size_t size);
 #endif
 #endif
 
+/* This check is required to support ancient and non-conforming compilers
+   because the inline keyword was only added in C99. */
+#if __STDC_VERSION__ >= 199901L
+#define INI_INLINE inline
+#else
+#define INI_INLINE
+#endif
+
 #define MAX_SECTION 50
 #define MAX_NAME 50
 
@@ -46,7 +54,7 @@ typedef struct {
 
 /* Strip whitespace chars off end of given string, in place. end must be a
    pointer to the NUL terminator at the end of the string. Return s. */
-static char* ini_rstrip(char* s, char* end)
+static INI_INLINE char* ini_rstrip(char* s, char* end)
 {
     while (end > s && isspace((unsigned char)(*--end)))
         *end = '\0';
@@ -54,7 +62,7 @@ static char* ini_rstrip(char* s, char* end)
 }
 
 /* Return pointer to first non-whitespace char in given string. */
-static char* ini_lskip(const char* s)
+static INI_INLINE char* ini_lskip(const char* s)
 {
     while (*s && isspace((unsigned char)(*s)))
         s++;
